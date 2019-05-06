@@ -5,9 +5,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 const App = () => {
   return (
     <BrowserRouter>
-      <Route exact path="/" />
+      <Route exact path="/" component={Register} />
       <Route exact path="/map" component={ShowMap} />
-      <Route exact path="/register" component={Register} />
     </BrowserRouter>
   );
 };
