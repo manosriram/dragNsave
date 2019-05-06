@@ -12,6 +12,7 @@ const Register = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     if (status === "register") {
+      // Register.
       const resp = await fetch("/auth/register", {
         method: "POST",
         headers: {
@@ -24,6 +25,16 @@ const Register = () => {
       console.log(data);
     } else {
       // Login.
+      const resp = await fetch("/auth/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ data: state })
+      });
+      const data = await resp.json();
+      console.log(data);
     }
   };
 
@@ -67,9 +78,9 @@ const Register = () => {
           </form>
           <form className="login-form">
             <input
-              type="text"
-              placeholder="username"
-              name="username"
+              type="email"
+              placeholder="email address"
+              name="email"
               onChange={handleChange}
             />
             <input

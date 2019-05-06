@@ -3,6 +3,7 @@ import React, { Fragment, useState, useEffect, createRef } from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import "../Styles/App.css";
 import L from "leaflet";
+import Register from "./Register";
 const iURL = require("../Misc/Icon").url;
 const Cookie = require("js-cookie");
 
@@ -36,7 +37,6 @@ const ShowMap = () => {
       setState({ ...state, loggedIn: true });
       navigator.geolocation.getCurrentPosition(
         position => {
-          console.log(position);
           setState({
             center: {
               lat: position.coords.latitude,
@@ -101,11 +101,7 @@ const ShowMap = () => {
   var markerPosition = [state.marker.lat, state.marker.lng];
 
   if (state.loggedIn === false) {
-    return (
-      <Fragment>
-        <h4>Not Logged IN.</h4>
-      </Fragment>
-    );
+    return <Register />;
   }
 
   return (
