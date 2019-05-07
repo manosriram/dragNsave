@@ -70,6 +70,11 @@ router.post("/login", (req, res) => {
     .catch(err => console.log(err));
 });
 
+router.get("/logout", (req, res) => {
+  res.clearCookie("auth_t");
+  req.logout();
+});
+
 router.get("/", (req, res) => {
   return res.json({ message: "Auth Route." });
 });

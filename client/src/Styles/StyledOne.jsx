@@ -14,7 +14,7 @@ export const InputBoxTwo = styled.input`
 `;
 
 export const InputBox = styled.input`
-  height: 2.5vh;
+  height: 4vh;
   border-radius: 4px;
   border-style: solid;
   outline: none;
@@ -26,9 +26,10 @@ export const InputBox = styled.input`
 `;
 
 export const ButtonD = styled.button`
+  height: 4vh;
   color: white;
   background: black;
-  font-size: 1.5vw;
+  font-size: 2vh;
   border-radius: 6px;
   outline: none;
 

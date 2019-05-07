@@ -1,3 +1,4 @@
+import Nav from "./Nav";
 import { ButtonD, InputBox } from "../Styles/StyledOne";
 import React, { Fragment, useState, useEffect, createRef } from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
@@ -8,6 +9,7 @@ const iURL = require("../Misc/Icon").url;
 const Cookie = require("js-cookie");
 
 const ShowMap = () => {
+  const [spinner, setSpinner] = useState(true);
   const [state, setState] = useState({
     center: {
       lat: 51.505,
@@ -68,6 +70,7 @@ const ShowMap = () => {
         },
         { timeout: 2000, enableHighAccuracy: true }
       );
+      setSpinner(false);
     }
   }, []);
 
@@ -89,8 +92,18 @@ const ShowMap = () => {
     });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
+    const resp = await fetch("/loc/getLocations", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ markerPosition, label })
+    });
+    const data = await resp.json();
+    console.log(markerPosition);
   };
 
   const handleChange = e => {
@@ -106,6 +119,12 @@ const ShowMap = () => {
 
   return (
     <Fragment>
+      <Nav />
+      {spinner === true && (
+        <div class="spinner-border text-dark" role="status" id="spinner">
+          <span class="sr-only">Loading...</span>
+        </div>
+      )}
       <Map className="map" center={position} zoom={state.zoom}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

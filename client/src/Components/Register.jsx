@@ -1,5 +1,6 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { InputBoxTwo, ButtonD } from "../Styles/StyledOne";
+import "../Styles/App.css";
 
 const Register = () => {
   const [state, setState] = useState({
@@ -8,9 +9,11 @@ const Register = () => {
     password: null
   });
   const [status, setStatus] = useState("login");
+  const [spinner, setSpinner] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setSpinner(true);
     if (status === "register") {
       // Register.
       const resp = await fetch("/auth/register", {
@@ -34,8 +37,9 @@ const Register = () => {
         body: JSON.stringify({ data: state })
       });
       const data = await resp.json();
-      console.log(data);
+      window.location = "/";
     }
+    setSpinner(false);
   };
 
   const handleChange = e => {
@@ -60,8 +64,28 @@ const Register = () => {
     elemTwo[0].style.display = "none";
   };
 
+  if (spinner === true) {
+    if (status === "register") {
+      let d = document.getElementsByClassName("register-form");
+      d[0].style.display = "none";
+    } else {
+      let d = document.getElementsByClassName("login-form");
+      d[0].style.display = "none";
+    }
+    return (
+      <div class="spinner-border text-dark" role="status" id="spinner">
+        <span class="sr-only">Loading...</span>
+      </div>
+    );
+  }
+
   return (
     <Fragment>
+      {/* {spinner === true && (
+        <div class="spinner-border text-dark" role="status" id="spinner">
+          <span class="sr-only">Loading...</span>
+        </div>
+      )} */}
       <div className="login-page">
         <div className="form">
           <form className="register-form" onChange={handleChange}>

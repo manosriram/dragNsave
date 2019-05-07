@@ -13,6 +13,7 @@ const UserSchema = new Schema({
   },
   locations: [
     {
+      label: { type: String },
       lat: {
         type: String
       },

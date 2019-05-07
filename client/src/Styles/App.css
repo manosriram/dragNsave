@@ -128,3 +128,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+#logout {
+  cursor: pointer;
+}
+
+#spinner {
+  margin-left: auto;
+  margin-right: auto;
+  width: NNNpx;
+  display: block;
+  float: none;
+  font-size: 150px;
+}
