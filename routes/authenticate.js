@@ -5,6 +5,14 @@ const bcrypt = require("bcryptjs");
 const jsonwt = require("jsonwebtoken");
 const key = require("../setup/url").secret;
 
+router.get("/getUserDetails", (req, res) => {
+  jsonwt.verify(req.cookies.auth_t, key, (err, user) => {
+    if (user) {
+      return res.json({ email: user.email });
+    }
+  });
+});
+
 router.post("/register", (req, res) => {
   const { name, email, password } = req.body.data;
 

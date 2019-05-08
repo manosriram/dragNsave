@@ -24,6 +24,7 @@ const Nav = () => {
           HOME
         </a>
         <button
+          id="togglebar"
           class="navbar-toggler"
           type="button"
           data-toggle="collapse"

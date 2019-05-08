@@ -134,10 +134,29 @@ body {
 }
 
 #spinner {
-  margin-left: auto;
-  margin-right: auto;
-  width: NNNpx;
-  display: block;
-  float: none;
+  width: 100px;
+  height: 100px;
+  background-color: lightblue;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
   font-size: 150px;
+}
+
+#togglebar {
+  outline: none;
+  border: none;
+}
+
+#locBoxOne {
+  margin: 5px;
+  float: left;
+  width: calc(25% - 10px);
+  height: 230px;
+  background-color: #34ace0;
 }

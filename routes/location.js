@@ -4,7 +4,21 @@ const User = require("../Models/User");
 const jsonwt = require("jsonwebtoken");
 const key = require("../setup/url").secret;
 
-router.post("/getLocations", (req, res) => {
+router.post("/getUserLocations", (req, res) => {
+  var email = "";
+  jsonwt.verify(req.cookies.auth_t, key, (err, user) => {
+    if (user) {
+      email = user.email;
+    }
+  });
+  User.findOne({ email })
+    .then(person => {
+      return res.json({ loc: person.locations });
+    })
+    .catch(err => console.log(err));
+});
+
+router.post("/pushLocations", (req, res) => {
   let email = "";
   const label = req.body.label;
   const lat = req.body.markerPosition[0];

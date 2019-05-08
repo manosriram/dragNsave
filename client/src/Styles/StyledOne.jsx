@@ -37,3 +37,20 @@ export const ButtonD = styled.button`
     cursor: pointer;
   }
 `;
+
+export const ButtonTwo = styled.button`
+  height: 4vh;
+  color: white;
+  background: #192a56;
+  border-color: #2f3542;
+  font-size: 2vh;
+  border-radius: 6px;
+  outline: none;
+  transition: 0.1s;
+
+  &:hover {
+    background: #586776;
+    border-color: #2f3542;
+    cursor: pointer;
+  }
+`;

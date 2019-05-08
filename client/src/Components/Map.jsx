@@ -8,7 +8,7 @@ import Register from "./Register";
 const iURL = require("../Misc/Icon").url;
 const Cookie = require("js-cookie");
 
-const ShowMap = () => {
+const ShowMap = props => {
   const [spinner, setSpinner] = useState(true);
   const [state, setState] = useState({
     center: {
@@ -35,6 +35,42 @@ const ShowMap = () => {
   });
 
   useEffect(() => {
+    if (props !== undefined) {
+      console.log("Props Undefined.");
+      setState({
+        center: {
+          lat: 51.505,
+          lng: -0.09
+        },
+        marker: {
+          lat: 51.505,
+          lng: -0.09
+        },
+
+        haveUsersLocation: false,
+        zoom: 1,
+        draggable: false,
+        loggedIn: false
+      });
+    } else {
+      console.log("Props Defined.");
+      setState({
+        center: {
+          lat: props.lat,
+          lng: props.lng
+        },
+        marker: {
+          lat: props.lat,
+          lng: props.lng
+        },
+
+        haveUsersLocation: false,
+        zoom: 1,
+        draggable: false,
+        loggedIn: false
+      });
+    }
+
     if (Cookie.get("auth_t") !== undefined) {
       setState({ ...state, loggedIn: true });
       navigator.geolocation.getCurrentPosition(
@@ -70,8 +106,8 @@ const ShowMap = () => {
         },
         { timeout: 2000, enableHighAccuracy: true }
       );
-      setSpinner(false);
     }
+    setSpinner(false);
   }, []);
 
   const updatePosition = e => {
@@ -94,7 +130,7 @@ const ShowMap = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const resp = await fetch("/loc/getLocations", {
+    const resp = await fetch("/loc/pushLocations", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -103,7 +139,7 @@ const ShowMap = () => {
       body: JSON.stringify({ markerPosition, label })
     });
     const data = await resp.json();
-    console.log(markerPosition);
+    console.log(data);
   };
 
   const handleChange = e => {
@@ -113,6 +149,13 @@ const ShowMap = () => {
   const position = [state.center.lat, state.center.lng];
   var markerPosition = [state.marker.lat, state.marker.lng];
 
+  if (spinner === true) {
+    return (
+      <div class="spinner-border text-dark" role="status" id="spinner">
+        <span class="sr-only">Loading...</span>
+      </div>
+    );
+  }
   if (state.loggedIn === false) {
     return <Register />;
   }
@@ -120,11 +163,6 @@ const ShowMap = () => {
   return (
     <Fragment>
       <Nav />
-      {spinner === true && (
-        <div class="spinner-border text-dark" role="status" id="spinner">
-          <span class="sr-only">Loading...</span>
-        </div>
-      )}
       <Map className="map" center={position} zoom={state.zoom}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
