@@ -35,16 +35,16 @@ const ShowMap = props => {
   });
 
   useEffect(() => {
-    if (props !== undefined) {
-      console.log("Props Undefined.");
+    if (props.props !== undefined) {
+      console.log("Props Defined.");
       setState({
         center: {
-          lat: 51.505,
-          lng: -0.09
+          lat: props.props.lat,
+          lng: props.props.lng
         },
         marker: {
-          lat: 51.505,
-          lng: -0.09
+          lat: props.props.lat,
+          lng: props.props.lng
         },
 
         haveUsersLocation: false,
@@ -53,7 +53,7 @@ const ShowMap = props => {
         loggedIn: false
       });
     } else {
-      console.log("Props Defined.");
+      console.log("Props Undefined.");
       setState({
         center: {
           lat: props.lat,
@@ -151,8 +151,8 @@ const ShowMap = props => {
 
   if (spinner === true) {
     return (
-      <div class="spinner-border text-dark" role="status" id="spinner">
-        <span class="sr-only">Loading...</span>
+      <div className="spinner-border text-dark" role="status" id="spinner">
+        <span className="sr-only">Loading...</span>
       </div>
     );
   }

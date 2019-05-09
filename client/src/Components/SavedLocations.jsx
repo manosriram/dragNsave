@@ -2,9 +2,20 @@ import React, { Fragment, useEffect, useState } from "react";
 import Nav from "./Nav";
 import "../Styles/App.css";
 import { ButtonTwo } from "../Styles/StyledOne";
+import ShowMap from "./Map";
 
 const SavedLocations = () => {
   const [locations, setLocations] = useState([]);
+  const [spinner, setSpinner] = useState(true);
+  const [mapDetails, setMapDetails] = useState(null);
+
+  const handleGT = e => {
+    setMapDetails({
+      lat: e.lat,
+      lng: e.lng,
+      label: e.label
+    });
+  };
 
   const grabLocations = async () => {
     const resp = await fetch("/loc/getUserLocations", {
@@ -21,26 +32,44 @@ const SavedLocations = () => {
   useEffect(() => {
     grabLocations();
 
+    setSpinner(false);
     return () => console.log(locations);
   }, []);
+
+  if (spinner === true) {
+    return (
+      <div class="spinner-border text-dark" role="status" id="spinner">
+        <span class="sr-only">Loading...</span>
+      </div>
+    );
+  }
+
+  if (mapDetails !== null) {
+    return <ShowMap props={mapDetails} />;
+  }
 
   return (
     <Fragment>
       <Nav />
       {locations.map((el, elInd) => {
         return (
-          <Fragment key={elInd}>
-            <div id="locBoxOne" key={elInd}>
+          <div key={elInd} id="locBoxOne">
+            <div id="content" key={elInd}>
               <br />
               <strong>
                 <h3>{el.label}</h3>
               </strong>
+              <br />
               <h5>Latt : {el.lat}</h5>
               <h5>Lng : {el.lng}</h5>
               <br />
-              <ButtonTwo>Go There</ButtonTwo>
+              <ButtonTwo value={el} onClick={() => handleGT(el)}>
+                Go There
+              </ButtonTwo>
+              <br />
+              <br />
             </div>
-          </Fragment>
+          </div>
         );
       })}
     </Fragment>

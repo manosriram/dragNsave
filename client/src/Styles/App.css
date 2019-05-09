@@ -1,6 +1,6 @@
 body {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100%;
 }
 
 #root {
@@ -154,9 +154,31 @@ body {
 }
 
 #locBoxOne {
-  margin: 5px;
-  float: left;
-  width: calc(25% - 10px);
-  height: 230px;
-  background-color: #34ace0;
+  display: inline-block;
+  width: 300px;
+  margin: 10px;
+  margin-bottom: 30px;
+  background-color: #192a56;
+  color: white;
+  border-radius: 5px;
+}
+
+#content {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 10px;
+}
+
+@media screen and (max-width: 414px) {
+  #locBoxOne {
+    display: block;
+    width: 300px;
+    margin: auto;
+    margin-bottom: 30px;
+    background-color: #192a56;
+    border-radius: 5px;
+    color: white;
+  }
 }

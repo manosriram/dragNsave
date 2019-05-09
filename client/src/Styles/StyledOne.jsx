@@ -41,16 +41,17 @@ export const ButtonD = styled.button`
 export const ButtonTwo = styled.button`
   height: 4vh;
   color: white;
-  background: #192a56;
-  border-color: #2f3542;
+  background: #3498db;
+  border-color: #3498db;
   font-size: 2vh;
   border-radius: 6px;
   outline: none;
   transition: 0.1s;
+  margin: auto;
 
   &:hover {
-    background: #586776;
-    border-color: #2f3542;
+    background: #1287a5;
+    border-color: #1287a5;
     cursor: pointer;
   }
 `;
