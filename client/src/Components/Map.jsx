@@ -101,7 +101,6 @@ const ShowMap = props => {
         );
       }
       setSpinner(false);
-      setState({ ...state, mapSpinning: false });
     } else {
       setState({
         ...state,
