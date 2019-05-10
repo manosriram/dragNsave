@@ -19,6 +19,7 @@ body {
 }
 
 #form {
+  padding-top: 20px;
   text-align: center;
   position: absolute;
   z-index: 999;
@@ -194,8 +195,4 @@ body {
 
 #messageAlert {
   color: red;
-}
-#navnav {
-  background: red;
-  overflow: hidden;
 }
