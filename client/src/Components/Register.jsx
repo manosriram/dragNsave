@@ -11,35 +11,54 @@ const Register = () => {
   const [status, setStatus] = useState("login");
   const [spinner, setSpinner] = useState(false);
 
+  if (spinner === true) {
+    if (status === "register") {
+      let d = document.getElementsByClassName("register-form");
+      d[0].style.display = "none";
+    } else {
+      let d = document.getElementsByClassName("login-form");
+      d[0].style.display = "none";
+    }
+    return (
+      <div class="spinner-border text-dark" role="status" id="spinner">
+        <span class="sr-only">Loading...</span>
+      </div>
+    );
+  }
+
   const handleSubmit = async e => {
     e.preventDefault();
     setSpinner(true);
-    if (status === "register") {
-      // Register.
-      const resp = await fetch("/auth/register", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ data: state })
-      });
-      const data = await resp.json();
-      console.log(data);
-    } else {
-      // Login.
-      const resp = await fetch("/auth/login", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ data: state })
-      });
-      const data = await resp.json();
-      window.location = "/";
+    try {
+      if (status === "register") {
+        // Register.
+        const resp = await fetch("/auth/register", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ data: state })
+        });
+        const data = await resp.json();
+        console.log(data);
+      } else {
+        // Login.
+        const resp = await fetch("/auth/login", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ data: state })
+        });
+        const data = await resp.json();
+        setSpinner(false);
+        window.location = "/";
+      }
+    } catch (er) {
+      console.log(er);
     }
-    setSpinner(false);
   };
 
   const handleChange = e => {
@@ -64,28 +83,8 @@ const Register = () => {
     elemTwo[0].style.display = "none";
   };
 
-  if (spinner === true) {
-    if (status === "register") {
-      let d = document.getElementsByClassName("register-form");
-      d[0].style.display = "none";
-    } else {
-      let d = document.getElementsByClassName("login-form");
-      d[0].style.display = "none";
-    }
-    return (
-      <div class="spinner-border text-dark" role="status" id="spinner">
-        <span class="sr-only">Loading...</span>
-      </div>
-    );
-  }
-
   return (
     <Fragment>
-      {/* {spinner === true && (
-        <div class="spinner-border text-dark" role="status" id="spinner">
-          <span class="sr-only">Loading...</span>
-        </div>
-      )} */}
       <div className="login-page">
         <div className="form">
           <form className="register-form" onChange={handleChange}>

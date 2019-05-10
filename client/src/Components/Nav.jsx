@@ -21,7 +21,7 @@ const Nav = () => {
     <Fragment>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">
-          HOME
+          <h2>HOME</h2>
         </a>
         <button
           id="togglebar"
@@ -41,13 +41,14 @@ const Nav = () => {
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                   <a class="nav-link" href="/savedLoc">
-                    Saved Locations <span class="sr-only">(current)</span>
+                    <h5>Saved Locations </h5>
+                    <span class="sr-only">(current)</span>
                   </a>
                 </li>
                 <li class="nav-item active">
                   <form action="/auth/logout" />
                   <a class="nav-link" onClick={Logout} id="logout">
-                    Logout <span class="sr-only">(current)</span>
+                    <h5> Logout</h5> <span class="sr-only">(current)</span>
                   </a>
                 </li>
               </ul>

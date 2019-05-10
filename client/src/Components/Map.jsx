@@ -9,7 +9,10 @@ const iURL = require("../Misc/Icon").url;
 const Cookie = require("js-cookie");
 
 const ShowMap = props => {
-  const [spinner, setSpinner] = useState(true);
+  const [label, setLabel] = useState("");
+  const [spinner, setSpinner] = useState(false);
+  const [ret, setReturn] = useState(false);
+  const [msg, setMessage] = useState("");
   const [state, setState] = useState({
     center: {
       lat: 51.505,
@@ -20,12 +23,12 @@ const ShowMap = props => {
       lng: -0.09
     },
 
+    mapSpinning: true,
     haveUsersLocation: false,
     zoom: 1,
     draggable: false,
-    loggedIn: false
+    loggedIn: true
   });
-  const [label, setLabel] = useState("");
 
   var myIcon = L.icon({
     iconUrl: iURL,
@@ -35,77 +38,76 @@ const ShowMap = props => {
   });
 
   useEffect(() => {
-    if (props.props !== undefined) {
-      console.log("Props Defined.");
-      setState({
-        center: {
-          lat: props.props.lat,
-          lng: props.props.lng
-        },
-        marker: {
-          lat: props.props.lat,
-          lng: props.props.lng
-        },
-
-        haveUsersLocation: false,
-        zoom: 1,
-        draggable: false,
-        loggedIn: false
-      });
-    } else {
-      console.log("Props Undefined.");
-      setState({
-        center: {
-          lat: props.lat,
-          lng: props.lng
-        },
-        marker: {
-          lat: props.lat,
-          lng: props.lng
-        },
-
-        haveUsersLocation: false,
-        zoom: 1,
-        draggable: false,
-        loggedIn: false
-      });
-    }
-
+    setSpinner(true);
     if (Cookie.get("auth_t") !== undefined) {
-      setState({ ...state, loggedIn: true });
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          setState({
-            center: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            },
-            marker: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            },
-            haveUsersLocation: true,
-            zoom: 15
-          });
-        },
-        async () => {
-          const resp = await fetch("https://ipapi.co/json/");
-          const loc = await resp.json();
-          setState({
-            center: {
-              lat: loc.latitude,
-              lng: loc.longitude
-            },
-            marker: {
-              lat: loc.latitude,
-              lng: loc.longitude
-            },
-            haveUsersLocation: true,
-            zoom: 15
-          });
-        },
-        { timeout: 2000, enableHighAccuracy: true }
-      );
+      if (props.props !== undefined) {
+        setState({
+          center: {
+            lat: props.props.lat,
+            lng: props.props.lng
+          },
+          marker: {
+            lat: props.props.lat,
+            lng: props.props.lng
+          },
+
+          haveUsersLocation: true,
+          zoom: 11,
+          draggable: true,
+          loggedIn: true
+        });
+      }
+
+      if (props.props === undefined) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setState({
+              center: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              },
+              marker: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              },
+              haveUsersLocation: true,
+              loggedIn: true,
+              mapSpinning: false,
+              zoom: 15
+            });
+          },
+          async () => {
+            const resp = await fetch("https://ipapi.co/json/");
+            const loc = await resp.json();
+            setState({
+              center: {
+                lat: loc.latitude,
+                lng: loc.longitude
+              },
+              marker: {
+                lat: loc.latitude,
+                lng: loc.longitude
+              },
+              haveUsersLocation: true,
+              zoom: 15,
+              loggedIn: true,
+              mapSpinning: false
+            });
+          },
+          {
+            timeout: 2000,
+            enableHighAccuracy: true
+          }
+        );
+      }
+      setSpinner(false);
+      setState({ ...state, mapSpinning: false });
+    } else {
+      setState({
+        ...state,
+        loggedIn: false,
+        mapSpinning: false
+      });
     }
     setSpinner(false);
   }, []);
@@ -130,16 +132,27 @@ const ShowMap = props => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const resp = await fetch("/loc/pushLocations", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ markerPosition, label })
-    });
-    const data = await resp.json();
-    console.log(data);
+    try {
+      if (label != "") {
+        const resp = await fetch("/loc/pushLocations", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            markerPosition,
+            label
+          })
+        });
+        const data = await resp.json();
+        console.log(data);
+      } else {
+        setMessage("Enter Label.");
+      }
+    } catch (er) {
+      console.log(er);
+    }
   };
 
   const handleChange = e => {
@@ -149,13 +162,16 @@ const ShowMap = props => {
   const position = [state.center.lat, state.center.lng];
   var markerPosition = [state.marker.lat, state.marker.lng];
 
-  if (spinner === true) {
+  if (spinner === true || state.mapSpinning === true) {
     return (
-      <div className="spinner-border text-dark" role="status" id="spinner">
-        <span className="sr-only">Loading...</span>
+      <div>
+        <div className="spinner-border text-dark" role="status" id="spinner">
+          <span className="sr-only">Loading...</span>
+        </div>
       </div>
     );
   }
+
   if (state.loggedIn === false) {
     return <Register />;
   }
@@ -169,7 +185,7 @@ const ShowMap = props => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <form id="form" onSubmit={handleSubmit}>
-          <br />
+          <h5 id="messageAlert">{msg}</h5>
           <InputBox
             placeholder="Label for this Location."
             onChange={handleChange}

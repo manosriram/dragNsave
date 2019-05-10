@@ -51,6 +51,7 @@ const SavedLocations = () => {
   return (
     <Fragment>
       <Nav />
+      <br />
       {locations.map((el, elInd) => {
         return (
           <div key={elInd} id="locBoxOne">

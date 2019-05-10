@@ -22,6 +22,7 @@ export const InputBox = styled.input`
   &::placeholder {
     color: black;
     font-size: 0.7rem;
+    text-align: center;
   }
 `;
 
@@ -39,11 +40,11 @@ export const ButtonD = styled.button`
 `;
 
 export const ButtonTwo = styled.button`
-  height: 4vh;
+  height: 6vh;
   color: white;
   background: #3498db;
   border-color: #3498db;
-  font-size: 2vh;
+  font-size: 3vh;
   border-radius: 6px;
   outline: none;
   transition: 0.1s;
