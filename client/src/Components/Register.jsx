@@ -10,6 +10,7 @@ const Register = () => {
   });
   const [status, setStatus] = useState("login");
   const [spinner, setSpinner] = useState(false);
+  const [message, setMessage] = useState("");
 
   if (spinner === true) {
     if (status === "register") {
@@ -28,6 +29,16 @@ const Register = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    if (
+      (!state.name || !state.password || !state.email) &&
+      status === "register"
+    ) {
+      setMessage("Error. Fill all the Details.");
+      return;
+    } else if ((!state.password || !state.email) && status === "login") {
+      setMessage("Error. Fill all the Details.");
+      return;
+    }
     setSpinner(true);
     try {
       if (status === "register") {
@@ -41,7 +52,6 @@ const Register = () => {
           body: JSON.stringify({ data: state })
         });
         const data = await resp.json();
-        console.log(data);
       } else {
         // Login.
         const resp = await fetch("/auth/login", {
@@ -87,6 +97,7 @@ const Register = () => {
     <Fragment>
       <div className="login-page">
         <div className="form">
+          <h5>{message}</h5>
           <form className="register-form" onChange={handleChange}>
             <input type="text" placeholder="name" name="name" />
             <input type="password" placeholder="password" name="password" />

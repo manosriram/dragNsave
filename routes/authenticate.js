@@ -16,6 +16,8 @@ router.get("/getUserDetails", (req, res) => {
 router.post("/register", (req, res) => {
   const { name, email, password } = req.body.data;
 
+  if (!name || !email || !password) return res.json({ message: "Error." });
+
   User.findOne({ email }).then(user => {
     if (!user) {
       let newUser = new User({
@@ -39,6 +41,8 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
   const { email, password } = req.body.data;
+
+  if (!email || !password) return res.json({ message: "Error." });
 
   User.findOne({ email })
     .then(person => {
