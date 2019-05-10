@@ -132,7 +132,7 @@ const ShowMap = props => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      if (label != "") {
+      if (label !== "") {
         const resp = await fetch("/loc/pushLocations", {
           method: "POST",
           headers: {

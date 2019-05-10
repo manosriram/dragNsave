@@ -3,6 +3,7 @@
 }
 
 body {
+  padding-top: 70px;
   width: 100%;
   height: 100vh;
   outline: none;
@@ -193,4 +194,8 @@ body {
 
 #messageAlert {
   color: red;
+}
+#navnav {
+  background: red;
+  overflow: hidden;
 }

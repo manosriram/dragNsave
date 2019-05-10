@@ -19,7 +19,10 @@ const Nav = () => {
 
   return (
     <Fragment>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav
+        class="navbar navbar-expand-md navbar-light bg-light fixed-top"
+        id="navnav"
+      >
         <a class="navbar-brand" href="/">
           <h2>HOME</h2>
         </a>
