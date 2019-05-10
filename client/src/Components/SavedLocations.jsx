@@ -61,7 +61,7 @@ const SavedLocations = () => {
                 <h3>{el.label}</h3>
               </strong>
               <br />
-              <h5>Latt : {el.lat}</h5>
+              <h5>Lat : {el.lat}</h5>
               <h5>Lng : {el.lng}</h5>
               <br />
               <ButtonTwo value={el} onClick={() => handleGT(el)}>
