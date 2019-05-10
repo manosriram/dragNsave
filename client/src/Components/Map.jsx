@@ -11,8 +11,8 @@ const Cookie = require("js-cookie");
 const ShowMap = props => {
   const [label, setLabel] = useState("");
   const [spinner, setSpinner] = useState(false);
-  const [ret, setReturn] = useState(false);
-  const [msg, setMessage] = useState("");
+  const [successMsg, setMessage] = useState("");
+  const [failureMsg, setFailMessage] = useState("");
   const [state, setState] = useState({
     center: {
       lat: 51.505,
@@ -133,6 +133,7 @@ const ShowMap = props => {
     e.preventDefault();
     try {
       if (label !== "") {
+        setMessage("Location Saved.");
         const resp = await fetch("/loc/pushLocations", {
           method: "POST",
           headers: {
@@ -145,9 +146,9 @@ const ShowMap = props => {
           })
         });
         const data = await resp.json();
-        console.log(data);
+        setLabel("");
       } else {
-        setMessage("Enter Label.");
+        setFailMessage("Enter Label.");
       }
     } catch (er) {
       console.log(er);
@@ -184,7 +185,8 @@ const ShowMap = props => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <form id="form" onSubmit={handleSubmit}>
-          <h5 id="messageAlert">{msg}</h5>
+          <h5 id="messageAlertS">{successMsg}</h5>
+          <h5 id="messageAlert">{failureMsg}</h5>
           <InputBox
             placeholder="Label for this Location."
             onChange={handleChange}

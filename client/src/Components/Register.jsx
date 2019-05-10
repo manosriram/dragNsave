@@ -90,7 +90,7 @@ const Register = () => {
           <form className="register-form" onChange={handleChange}>
             <input type="text" placeholder="name" name="name" />
             <input type="password" placeholder="password" name="password" />
-            <input type="text" placeholder="email address" name="email" />
+            <input type="email" placeholder="email address" name="email" />
             <button onClick={handleSubmit}>create</button>
             <p className="message">
               Already registered?{" "}

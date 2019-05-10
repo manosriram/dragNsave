@@ -196,3 +196,7 @@ body {
 #messageAlert {
   color: red;
 }
+
+#messageAlertS {
+  color: green;
+}
