@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const db = require("./setup/url").url;
 const cookieparser = require("cookie-parser");
+const path = require("path");
 
 app.use(express.json());
 app.use(cookieparser());
