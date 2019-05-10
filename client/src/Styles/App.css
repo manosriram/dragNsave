@@ -36,7 +36,7 @@ body {
   width: 360px;
   padding: 8% 0 0;
   margin: auto;
-  transition: 3s;
+  /* transition: 0.1s; */
 }
 .form {
   position: relative;

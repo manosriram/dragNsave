@@ -32,9 +32,9 @@ router.post("/register", (req, res) => {
           newUser.save().catch(err => console.log(err));
         });
       });
-      return res.json({ success: "User Succesfully Registered" });
+      return res.json({ success: true });
     } else {
-      return res.json({ error: "User already Registered." });
+      return res.json({ error: true });
     }
   });
 });
@@ -71,6 +71,8 @@ router.post("/login", (req, res) => {
                       return res.json({ success: true });
                     }
                   );
+                } else {
+                  return res.json({ error: true });
                 }
               })
               .catch(err => console.log(err));

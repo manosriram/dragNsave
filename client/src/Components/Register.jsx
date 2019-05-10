@@ -37,7 +37,11 @@ const Register = () => {
           body: JSON.stringify({ data: state })
         });
         const data = await resp.json();
-        setSpinner(false);
+        if (data.error === true) {
+          setSpinner(false);
+          setMessage("User Already Registered.");
+          return;
+        }
         window.location = "/";
       } else {
         // Login.
@@ -50,12 +54,17 @@ const Register = () => {
           body: JSON.stringify({ data: state })
         });
         const data = await resp.json();
+        if (data.error === true) {
+          setSpinner(false);
+          setMessage("Password Incorrect");
+          return;
+        }
         window.location = "/";
-        setSpinner(false);
       }
     } catch (er) {
       console.log(er);
     }
+    setSpinner(false);
   };
 
   if (spinner === true) {
