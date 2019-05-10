@@ -12,23 +12,9 @@ const Register = () => {
   const [spinner, setSpinner] = useState(false);
   const [message, setMessage] = useState("");
 
-  if (spinner === true) {
-    if (status === "register") {
-      let d = document.getElementsByClassName("register-form");
-      d[0].style.display = "none";
-    } else {
-      let d = document.getElementsByClassName("login-form");
-      d[0].style.display = "none";
-    }
-    return (
-      <div class="spinner-border text-dark" role="status" id="spinner">
-        <span class="sr-only">Loading...</span>
-      </div>
-    );
-  }
-
   const handleSubmit = async e => {
     e.preventDefault();
+    setSpinner(true);
     if (
       (!state.name || !state.password || !state.email) &&
       status === "register"
@@ -39,7 +25,6 @@ const Register = () => {
       setMessage("Error. Fill all the Details.");
       return;
     }
-    setSpinner(true);
     try {
       if (status === "register") {
         // Register.
@@ -63,13 +48,27 @@ const Register = () => {
           body: JSON.stringify({ data: state })
         });
         const data = await resp.json();
-        setSpinner(false);
         window.location = "/";
       }
     } catch (er) {
       console.log(er);
     }
   };
+
+  if (spinner === true) {
+    if (status === "register") {
+      let d = document.getElementsByClassName("register-form");
+      d[0].style.display = "none";
+    } else {
+      let d = document.getElementsByClassName("login-form");
+      d[0].style.display = "none";
+    }
+    return (
+      <div class="spinner-border text-dark" role="status" id="spinner">
+        <span class="sr-only">Loading...</span>
+      </div>
+    );
+  }
 
   const handleChange = e => {
     setState({ ...state, [e.target.name]: e.target.value });
