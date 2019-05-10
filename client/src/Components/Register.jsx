@@ -37,6 +37,8 @@ const Register = () => {
           body: JSON.stringify({ data: state })
         });
         const data = await resp.json();
+        setSpinner(false);
+        window.location = "/";
       } else {
         // Login.
         const resp = await fetch("/auth/login", {
@@ -49,6 +51,7 @@ const Register = () => {
         });
         const data = await resp.json();
         window.location = "/";
+        setSpinner(false);
       }
     } catch (er) {
       console.log(er);

@@ -52,6 +52,7 @@ const SavedLocations = () => {
     <Fragment>
       <Nav />
       <br />
+      {locations.length === 0 && <h4 id="noSave">No Saved Locations.</h4>}
       {locations.map((el, elInd) => {
         return (
           <div key={elInd} id="locBoxOne">

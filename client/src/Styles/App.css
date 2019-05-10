@@ -200,3 +200,7 @@ body {
 #messageAlertS {
   color: green;
 }
+#noSave {
+  text-align: center;
+  margin: auto;
+}
