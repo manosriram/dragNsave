@@ -16,12 +16,19 @@ const Register = () => {
     e.preventDefault();
     setSpinner(true);
     if (
-      (!state.name || !state.password || !state.email) &&
+      (state.name === null ||
+        state.password === null ||
+        state.email === null) &&
       status === "register"
     ) {
+      setSpinner(false);
       setMessage("Error. Fill all the Details.");
       return;
-    } else if ((!state.password || !state.email) && status === "login") {
+    } else if (
+      (state.password === null || state.email === null) &&
+      status === "login"
+    ) {
+      setSpinner(false);
       setMessage("Error. Fill all the Details.");
       return;
     }
@@ -45,6 +52,11 @@ const Register = () => {
         window.location = "/";
       } else {
         // Login.
+        if (state.email === null || state.password === null) {
+          setSpinner(false);
+          setMessage("Fill All Fields.");
+          return;
+        }
         const resp = await fetch("/auth/login", {
           method: "POST",
           headers: {
@@ -88,6 +100,7 @@ const Register = () => {
 
   const handleSignIn = e => {
     e.preventDefault();
+    setMessage("");
     setStatus("login");
     const elemOne = document.getElementsByClassName("login-form");
     const elemTwo = document.getElementsByClassName("register-form");
@@ -97,6 +110,7 @@ const Register = () => {
 
   const handleSignUp = e => {
     e.preventDefault();
+    setMessage("");
     setStatus("register");
     const elemOne = document.getElementsByClassName("register-form");
     const elemTwo = document.getElementsByClassName("login-form");

@@ -42,7 +42,8 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
   const { email, password } = req.body.data;
 
-  if (!email || !password) return res.json({ message: "Error." });
+  if (email === null || password === null)
+    return res.json({ error: true, message: "Fill all the Fields." });
 
   User.findOne({ email })
     .then(person => {
@@ -50,7 +51,10 @@ router.post("/login", (req, res) => {
         User.findOne({ email })
           .then(user => {
             if (!user) {
-              return res.json({ success: false });
+              return res.json({
+                success: false,
+                message: "No User Found with this Email."
+              });
             }
 
             bcrypt
@@ -68,18 +72,21 @@ router.post("/login", (req, res) => {
                     { expiresIn: 9000000 },
                     (err, token) => {
                       res.cookie("auth_t", token, { maxAge: 90000000 });
-                      return res.json({ success: true });
+                      return res.json({ success: true, message: "Logged In." });
                     }
                   );
                 } else {
-                  return res.json({ error: true });
+                  return res.json({
+                    error: true,
+                    message: "Password Incorrect."
+                  });
                 }
               })
               .catch(err => console.log(err));
           })
           .catch(err => console.log(err));
       } else {
-        return res.json({ error: "User not registered" });
+        return res.json({ error: true, message: "User Not Registered." });
       }
     })
     .catch(err => console.log(err));
