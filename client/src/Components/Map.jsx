@@ -10,7 +10,7 @@ const Cookie = require("js-cookie");
 
 const ShowMap = props => {
   const [label, setLabel] = useState("");
-  const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(true);
   const [successMsg, setMessage] = useState("");
   const [failureMsg, setFailMessage] = useState("");
   const [state, setState] = useState({
@@ -38,7 +38,6 @@ const ShowMap = props => {
   });
 
   useEffect(() => {
-    setSpinner(true);
     if (Cookie.get("auth_t") !== undefined) {
       if (props.props !== undefined) {
         setState({
@@ -100,7 +99,7 @@ const ShowMap = props => {
           }
         );
       }
-      setSpinner(false);
+      // setSpinner(false);
     } else {
       setState({
         ...state,

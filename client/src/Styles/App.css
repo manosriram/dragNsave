@@ -204,3 +204,9 @@ body {
   text-align: center;
   margin: auto;
 }
+
+#deleteIcon:hover {
+  cursor: pointer;
+  transition: 0.1s;
+  font-size: 5vh;
+}

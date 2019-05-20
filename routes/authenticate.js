@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jsonwt = require("jsonwebtoken");
 const key = require("../setup/url").secret;
 
+// Get Complete User Details.
 router.get("/getUserDetails", (req, res) => {
   jsonwt.verify(req.cookies.auth_t, key, (err, user) => {
     if (user) {
@@ -13,11 +14,10 @@ router.get("/getUserDetails", (req, res) => {
   });
 });
 
+// Register a User and also hash the Password.
 router.post("/register", (req, res) => {
   const { name, email, password } = req.body.data;
-
   if (!name || !email || !password) return res.json({ message: "Error." });
-
   User.findOne({ email }).then(user => {
     if (!user) {
       let newUser = new User({
@@ -39,6 +39,7 @@ router.post("/register", (req, res) => {
   });
 });
 
+// Create a Session for the User and Login.
 router.post("/login", (req, res) => {
   const { email, password } = req.body.data;
 
@@ -92,13 +93,10 @@ router.post("/login", (req, res) => {
     .catch(err => console.log(err));
 });
 
+// Destroy the Session and Logout the User.
 router.get("/logout", (req, res) => {
   res.clearCookie("auth_t");
   req.logout();
-});
-
-router.get("/", (req, res) => {
-  return res.json({ message: "Auth Route." });
 });
 
 module.exports = router;
