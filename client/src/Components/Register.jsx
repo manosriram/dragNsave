@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { InputBoxTwo, ButtonD } from "../Styles/StyledOne";
 import "../Styles/App.css";
 
-const Register = () => {
+const Register = props => {
   const [state, setState] = useState({
     name: null,
     email: null,
@@ -46,7 +46,7 @@ const Register = () => {
         const data = await resp.json();
         if (data.error === true) {
           setSpinner(false);
-          setMessage("User Already Registered.");
+          setMessage(data.errorMessage);
           return;
         }
         window.location = "/";
@@ -67,11 +67,11 @@ const Register = () => {
         });
         const data = await resp.json();
         if (data.error === true) {
-          setSpinner(false);
-          setMessage("Password Incorrect");
+          setMessage(data.errorMessage);
           return;
         }
         window.location = "/";
+        setSpinner(false);
       }
     } catch (er) {
       console.log(er);
