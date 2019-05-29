@@ -47,9 +47,9 @@ const Register = props => {
         if (data.error === true) {
           setSpinner(false);
           setMessage(data.errorMessage);
-          return;
+          setStatus("login");
         }
-        window.location = "/";
+        window.location.reload();
       } else {
         // Login.
         if (state.email === null || state.password === null) {
@@ -67,11 +67,11 @@ const Register = props => {
         });
         const data = await resp.json();
         if (data.error === true) {
+          setSpinner(false);
           setMessage(data.errorMessage);
-          return;
+          setStatus("login");
         }
-        window.location = "/";
-        setSpinner(false);
+        window.location.reload();
       }
     } catch (er) {
       console.log(er);
