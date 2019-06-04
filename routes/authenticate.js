@@ -57,7 +57,7 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
   const { email, password } = req.body.data;
 
-  const emailRegex = new RegExp("[a-zA-z0-9.-+><_]+@[a-z]+.w*");
+  const emailRegex = new RegExp("[a-zA-z0-9\\.+><_\\-]+@[a-z]+.w*");
   let meA = emailRegex.exec(email);
   if (meA !== null) {
     if (email === null || password === null)
